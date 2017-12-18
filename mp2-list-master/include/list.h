@@ -93,8 +93,11 @@ inline Node<ValType>::Node(const Node & z)
 template<class ValType>
 inline Node<ValType>& Node<ValType>::operator=(const Node<ValType>& z)
 {
-	val = z.val;
-	next = z.next;
+	if (this != &z)
+	{
+		val = z.val;
+		next = z.next;
+	}
 	return *this;
 }
 
@@ -126,17 +129,20 @@ inline List<ValType>::List(const List<ValType> & list2)
 template<class ValType>
 inline List<ValType> & List<ValType>::operator=(const List<ValType> & list2)
 {
-	Clean();
-	if (list2.head != NULL)
+	if (this != &list2)
 	{
-		head = new Node<ValType>(list2.head->val);
-		Node<ValType> *t = head;
-		Node<ValType> *tt = list2.head->next;
-		while (tt != NULL)
+		Clean();
+		if (list2.head != NULL)
 		{
-			t->next = new Node<ValType>(tt->val);
-			t = t->next;
-			tt = tt->next;
+			head = new Node<ValType>(list2.head->val);
+			Node<ValType> *t = head;
+			Node<ValType> *tt = list2.head->next;
+			while (tt != NULL)
+			{
+				t->next = new Node<ValType>(tt->val);
+				t = t->next;
+				tt = tt->next;
+			}
 		}
 	}
 	return *this;
